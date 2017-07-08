@@ -1,6 +1,5 @@
 import re
 
-
 class Terraform(object):
     def __init__(self, project):
         self.project = project
@@ -11,8 +10,11 @@ class Terraform(object):
             print l
 
     def get_n_nodes(self, vars_file):
-        print vars_file
-        return 2
+        for l in open(self.project + "/" + vars_file, 'rw'):
+            match = re.findall(r"^.*(AURORA_NODES_COUNT).*([\s\0-1][0-9])$", l)
+        if match[0]:
+            return match[0][1]
+        return None
 
     def plan(self):
         pass
